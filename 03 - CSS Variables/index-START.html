@@ -50,6 +50,9 @@
     let blur = document.getElementById("blur");
     let base = document.getElementById("base");
     let img = document.querySelector("img");
+    let h1 = document.querySelector(".hl");
+
+    h1.style.color = base.value
     spacing.addEventListener("input", () => {
       img.style.border = `${spacing.value}px solid ${base.value}`
     })
@@ -58,6 +61,8 @@
     })
     base.addEventListener("input", function()  {
       img.style.border = `${spacing.value}px solid ${base.value}`
+      console.log(h1);
+      h1.style.color = base.value
     })
   </script>
 

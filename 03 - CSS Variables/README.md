@@ -4,3 +4,5 @@
     change事件：value变化完才触发
 
 3. css设置模糊；用filter: blur(10px)
+
+4. css使用变量`var(name)`
