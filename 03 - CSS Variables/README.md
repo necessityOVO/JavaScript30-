@@ -6,3 +6,5 @@
 3. css设置模糊；用filter: blur(10px)
 
 4. css使用变量`var(name)`
+
+5. 获取html节点：使用:root
