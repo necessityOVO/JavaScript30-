@@ -1,22 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Type Ahead 👀</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
+	<head>
+		<meta charset="UTF-8" />
+		<title>Type Ahead 👀</title>
+		<link rel="stylesheet" href="style.css" />
+	</head>
+	<body>
+		<form class="search-form">
+			<input type="text" class="search" placeholder="City or State" />
+			<ul class="suggestions">
+				<!-- <li>Filter for a city</li>
+				<li>or a state</li> -->
+			</ul>
+		</form>
+		<script>
+			const endpoint =
+				"https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json";
+			const ul = document.querySelector(".suggestions");
 
-  <form class="search-form">
-    <input type="text" class="search" placeholder="City or State">
-    <ul class="suggestions">
-      <li>Filter for a city</li>
-      <li>or a state</li>
-    </ul>
-  </form>
-<script>
-const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+			let cityArr = [];
+			fetch(endpoint)
+				.then((res) => {
+					return res.json();
+				})
+				.then((data) => {
+					console.log(data);
+					cityArr = data;
+				});
 
-</script>
-</body>
+			document
+				.getElementsByClassName("search")[0]
+				.addEventListener("input", function (e) {
+					ul.innerHTML = "";
+					let list = "";
+					let reg = new RegExp(e.target.value, "gi");
+
+					if (e.target.value === "") return cityArr;
+
+					const currentArr = cityArr.filter(
+						(item) => 
+						reg.test(item.city) || reg.test(item.state)
+					);
+
+					// 遍历生成li
+					currentArr.forEach((item) => {          //可用fragment优化
+						let li = document.createElement("li");
+						li.innerHTML = `
+            <span>${item.city.replace(reg, `<span class="hl">$&</span>`)}，${item.state.replace(reg, `<span class="hl">$&</span>`)}
+            </span><span>${item.population}</span>
+            `;
+						ul.append(li);
+					});
+				});
+		</script>
+	</body>
 </html>
